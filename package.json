@@ -1,0 +1,50 @@
+{
+  "name": "google-maps-places",
+  "version": "1.0.0",
+  "description": "A protocol buffer query string documentor",
+  "type": "module",
+  "repository": "github:YasogaN/google-maps-places",
+  "homepage": "https://github.com/YasogaN/google-maps-places#readme",
+  "bugs": {
+    "url": "https://github.com/YasogaN/google-maps-places/issues"
+  },
+  "author": "YasogaN <contact@yasogan.dev>",
+  "license": "MIT",
+  "scripts": {
+    "test": "node src/index.js",
+    "prepare": "husky ",
+    "lint": "eslint -c eslint.config.mjs --fix"
+  },
+  "keywords": [
+    "protocol buffer",
+    "protobuf",
+    "documenter",
+    "protobuf documentor",
+    "protocol buffer documentor"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "eslint -c eslint.config.mjs --fix"
+    ]
+  },
+  "files": [
+    "src/",
+    "ReadMe.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "@eslint/compat": "^1.2.7",
+    "@types/node": "^22.13.13",
+    "eslint": "^9.23.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^50.6.9",
+    "eslint-plugin-tsdoc": "^0.4.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0"
+  },
+  "packageManager": "yarn@4.7.0+sha512.5a0afa1d4c1d844b3447ee3319633797bcd6385d9a44be07993ae52ff4facabccafb4af5dcd1c2f9a94ac113e5e9ff56f6130431905884414229e284e37bb7c9",
+  "dependencies": {
+    "@eslint/js": "^9.23.0"
+  }
+}
