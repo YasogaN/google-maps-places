@@ -129,3 +129,112 @@ export async function validateApiKey(apiKey) {
     throw new Error(`Failed to validate API key: ${error.message}`);
   }
 }
+
+/**
+ * Cleans and parses location data from a nested JSON structure.
+ * @param {Array} jsonData - The raw JSON data containing location details.
+ * @returns {object | null} The parsed location data or null if the input data is invalid.
+ * @property {string} id - The unique identifier for the location.
+ * @property {string} name - The name of the location.
+ * @property {object} address - The address details of the location.
+ * @property {string} address.full - The full address as a string.
+ * @property {Array} address.components - The components of the address.
+ * @property {object} coordinates - The geographical coordinates of the location.
+ * @property {number} coordinates.latitude - The latitude of the location.
+ * @property {number} coordinates.longitude - The longitude of the location.
+ * @property {string} pluscode - The Plus Code of the location.
+ * @property {string} website - The website URL of the location.
+ * @property {string} phone - The phone number of the location.
+ * @property {Array} categories - The categories associated with the location.
+ * @property {string} timezone - The timezone of the location.
+ * @property {Array} photos - An array of photo objects associated with the location.
+ * @property {string} photos[].id - The unique identifier for the photo.
+ * @property {string} photos[].type - The type of the photo (e.g., "Video").
+ * @property {string | object} photos[].url - The URL of the photo or video details.
+ * @property {object} photos[].resolution - The resolution of the photo.
+ * @property {number} photos[].resolution.width - The width of the photo.
+ * @property {number} photos[].resolution.height - The height of the photo.
+ * @property {object} photos[].coordinates - The geographical coordinates of the photo.
+ * @property {number} photos[].coordinates.latitude - The latitude of the photo.
+ * @property {number} photos[].coordinates.longitude - The longitude of the photo.
+ * @property {Array} relatedLocations - An array of related location objects.
+ * @property {string} relatedLocations[].id - The unique identifier for the related location.
+ * @property {string} relatedLocations[].name - The name of the related location.
+ * @property {string|null} relatedLocations[].image - The image URL of the related location.
+ * @property {object} relatedLocations[].coordinates - The geographical coordinates of the related location.
+ * @property {number|null} relatedLocations[].coordinates.latitude - The latitude of the related location.
+ * @property {number|null} relatedLocations[].coordinates.longitude - The longitude of the related location.
+ * @property {Array|null} accessibility - Accessibility features of the location, if available.
+ */
+/**
+ *
+ * @param jsonData
+ */
+export function cleanData(jsonData) {
+  // Extract the main location data from the nested structure
+  const data = jsonData[6];
+
+  if (!data) {
+    return null;
+  }
+
+  const parsedData = {
+    id: data[10],
+    name: data[11],
+    address: {
+      full: data[18],
+      components: data[2]
+    },
+    coordinates: {
+      latitude: data[9][2],
+      longitude: data[9][3]
+    },
+    pluscode: data[183][2][1][0],
+    website: data[7][1],
+    phone: data[178][0][0],
+    categories: data[13],
+    timezone: data[30],
+    photos: [],
+    relatedLocations: [],
+    accessibility: data[100][1][0][2] ? data[100][1][0][2].map(item => item[1]) : null
+  };
+
+  // Process photos
+  if (data[51]) {
+    parsedData.photos = data[51][0].map(photo => {
+      return {
+        id: photo[0],
+        type: photo[20],
+        url: photo[20] === "Video" ? {
+          cover: photo[6][0].split('=')[0],
+          video: photo[26][1].filter(item => item[0] !== null).sort((a, b) => (b[1] * b[2]) - (a[1] * a[2]))[0][3],
+        } : photo[6][0].split('=')[0],
+        resolution: {
+          width: photo[6][2][0],
+          height: photo[6][2][1],
+        },
+        coordinates: {
+          latitude: photo[8][0][2],
+          longitude: photo[8][0][1]
+        },
+      };
+    });
+  }
+
+  // Process related locations
+  if (data[204] && data[204][0] && data[204][0][0][1]) {
+    parsedData.relatedLocations = data[204][0].map(related => {
+      return {
+        id: related[1][0][0],
+        name: related[1][1],
+        image: related[1][2] && related[1][2][0] ? related[1][2][0][0].split('=')[0] : null,
+        coordinates: {
+          latitude: related[1][3] && related[1][3][0] ? related[1][3][0] : null,
+          longitude: related[1][3] && related[1][3][1] ? related[1][3][1] : null,
+        }
+      };
+    });
+  }
+
+  return parsedData;
+}
