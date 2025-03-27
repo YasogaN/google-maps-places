@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This documentation is incomplete. I will be adding complete documentation when my schedule allows.
+
 # Endpoint: place
 
 ## Endpoint URL
