@@ -150,7 +150,7 @@ export async function validateApiKey(apiKey) {
  * @property {Array} media - An array of photo objects associated with the location.
  * @property {string} media[].id - The unique identifier of the photo.
  * @property {string} media[].type - The type of the photo (e.g., "Video").
- * @property {string | object} media[].url - The URL of the photo or video cover.
+ * @property {string | object} media[].url - The URL of the photo or video and cover image object.
  * @property {object} media[].resolution - The resolution of the photo.
  * @property {number} media[].resolution.width - The width of the photo in pixels.
  * @property {number} media[].resolution.height - The height of the photo in pixels.
