@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "test": "node src/index.js",
-    "prepare": "husky ",
+    "prepare": "husky init",
     "lint": "eslint -c eslint.config.mjs --fix"
   },
   "keywords": [
