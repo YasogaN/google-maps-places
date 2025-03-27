@@ -177,21 +177,21 @@ export function cleanData(jsonData) {
     id: data[10],
     name: data[11],
     address: {
-      full: data[18],
-      components: data[2]
+      full: data[18] ?? null,
+      components: data[2] ?? null,
     },
     coordinates: {
-      latitude: data[9][2],
-      longitude: data[9][3]
+      latitude: data[9]?.[2] ?? null,
+      longitude: data[9]?.[3] ?? null,
     },
-    pluscode: data[183][2][1][0],
-    website: data[7][1],
-    phone: data[178][0][0],
-    categories: data[13],
-    timezone: data[30],
+    pluscode: data[183]?.[2]?.[1]?.[0] ?? null,
+    website: data[7]?.[1] ?? null,
+    phone: data[178]?.[0]?.[0] ?? null,
+    categories: data[13] ?? null,
+    timezone: data[30] ?? null,
     photos: [],
     relatedLocations: [],
-    accessibility: data[100][1][0][2] ? data[100][1][0][2].map(item => item[1]) : null
+    accessibility: data[100]?.[1]?.[0]?.[2]?.map(item => item[1]) ?? null,
   };
 
   // Process photos
@@ -200,17 +200,21 @@ export function cleanData(jsonData) {
       return {
         id: photo[0],
         type: photo[20],
-        url: photo[20] === "Video" ? {
-          cover: photo[6][0].split('=')[0],
-          video: photo[26][1].filter(item => item[0] !== null).sort((a, b) => (b[1] * b[2]) - (a[1] * a[2]))[0][3],
-        } : photo[6][0].split('=')[0],
+        url: photo[20] === "Video"
+          ? {
+            cover: photo[6]?.[0]?.split('=')[0] ?? null,
+            video: photo[26]?.[1]
+              ?.filter(item => item?.[0] !== null)
+              ?.sort((a, b) => (b?.[1] * b?.[2]) - (a?.[1] * a?.[2]))?.[0]?.[3] ?? null,
+          }
+          : photo[6]?.[0]?.split('=')[0] ?? null,
         resolution: {
-          width: photo[6][2][0],
-          height: photo[6][2][1],
+          width: photo[6]?.[2]?.[0] ?? null,
+          height: photo[6]?.[2]?.[1] ?? null,
         },
         coordinates: {
-          latitude: photo[8][0][2],
-          longitude: photo[8][0][1]
+          latitude: photo[8]?.[0]?.[2] ?? null,
+          longitude: photo[8]?.[0]?.[1] ?? null,
         },
       };
     });
@@ -220,13 +224,13 @@ export function cleanData(jsonData) {
   if (data[204] && data[204][0] && data[204][0][0][1]) {
     parsedData.relatedLocations = data[204][0].map(related => {
       return {
-        id: related[1][0][0],
-        name: related[1][1],
-        image: related[1][2] && related[1][2][0] ? related[1][2][0][0].split('=')[0] : null,
+        id: related[1]?.[0]?.[0] ?? null,
+        name: related[1]?.[1] ?? null,
+        image: related[1]?.[2]?.[0]?.[0]?.split('=')[0] ?? null,
         coordinates: {
-          latitude: related[1][3] && related[1][3][0] ? related[1][3][0] : null,
-          longitude: related[1][3] && related[1][3][1] ? related[1][3][1] : null,
-        }
+          latitude: related[1]?.[3]?.[0] ?? null,
+          longitude: related[1]?.[3]?.[1] ?? null,
+        },
       };
     });
   }
