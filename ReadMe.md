@@ -63,7 +63,7 @@ const placeFromQuery = await placeData.getFromQuery("The White House", false);
 `apiKey` - `string`: Your Google Maps API key required for some operations.
 
 > [!NOTE]
-> The api key is used to call an endpoint which falls under the SKU: Places API Text Search Essentials (IDs Only) which has unlimited free usage (Source: [Google](https://developers.google.com/maps/billing-and-pricing/pricing#places-pricing), [Archived](https://ghostarchive.org/archive/sIZdT))
+> The API key is used to call an endpoint which falls under the SKU: Places API Text Search Essentials (IDs Only) which has unlimited free usage (Source: [Google](https://developers.google.com/maps/billing-and-pricing/pricing#places-pricing), [Archived](https://ghostarchive.org/archive/sIZdT)). The API key only required if you will use the method getFromQuery.
 
 #### Methods
 
