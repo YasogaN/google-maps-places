@@ -131,10 +131,10 @@ export async function validateApiKey(apiKey) {
 }
 
 /**
- * Cleans and parses location data from a nested JSON structure.
- * @param {Array} jsonData - The raw JSON data containing location details.
- * @returns {object | null} The parsed location data or null if the input data is invalid.
- * @property {string} id - The unique identifier for the location.
+ * Parses and cleans raw JSON data into a structured format.
+ * @param {string} jsonData - The raw JSON string to be parsed and cleaned.
+ * @returns {object | null} The cleaned and structured data object, or `null` if the input data is invalid.
+ * @property {string} id - The unique identifier of the location.
  * @property {string} name - The name of the location.
  * @property {object} address - The address details of the location.
  * @property {string} address.full - The full address as a string.
@@ -148,31 +148,26 @@ export async function validateApiKey(apiKey) {
  * @property {Array} categories - The categories associated with the location.
  * @property {string} timezone - The timezone of the location.
  * @property {Array} photos - An array of photo objects associated with the location.
- * @property {string} photos[].id - The unique identifier for the photo.
+ * @property {string} photos[].id - The unique identifier of the photo.
  * @property {string} photos[].type - The type of the photo (e.g., "Video").
- * @property {string | object} photos[].url - The URL of the photo or video details.
+ * @property {string | object} photos[].url - The URL of the photo or video cover.
  * @property {object} photos[].resolution - The resolution of the photo.
- * @property {number} photos[].resolution.width - The width of the photo.
- * @property {number} photos[].resolution.height - The height of the photo.
- * @property {object} photos[].coordinates - The geographical coordinates of the photo.
- * @property {number} photos[].coordinates.latitude - The latitude of the photo.
- * @property {number} photos[].coordinates.longitude - The longitude of the photo.
+ * @property {number} photos[].resolution.width - The width of the photo in pixels.
+ * @property {number} photos[].resolution.height - The height of the photo in pixels.
+ * @property {object} photos[].coordinates - The geographical coordinates where the photo was taken.
+ * @property {number} photos[].coordinates.latitude - The latitude of the photo's location.
+ * @property {number} photos[].coordinates.longitude - The longitude of the photo's location.
  * @property {Array} relatedLocations - An array of related location objects.
- * @property {string} relatedLocations[].id - The unique identifier for the related location.
+ * @property {string} relatedLocations[].id - The unique identifier of the related location.
  * @property {string} relatedLocations[].name - The name of the related location.
- * @property {string|null} relatedLocations[].image - The image URL of the related location.
+ * @property {string|null} relatedLocations[].image - The image URL of the related location, or `null` if unavailable.
  * @property {object} relatedLocations[].coordinates - The geographical coordinates of the related location.
- * @property {number|null} relatedLocations[].coordinates.latitude - The latitude of the related location.
- * @property {number|null} relatedLocations[].coordinates.longitude - The longitude of the related location.
- * @property {Array|null} accessibility - Accessibility features of the location, if available.
- */
-/**
- *
- * @param jsonData
+ * @property {number|null} relatedLocations[].coordinates.latitude - The latitude of the related location, or `null` if unavailable.
+ * @property {number|null} relatedLocations[].coordinates.longitude - The longitude of the related location, or `null` if unavailable.
+ * @property {Array|null} accessibility - An array of accessibility features, or `null` if unavailable.
  */
 export function cleanData(jsonData) {
-  // Extract the main location data from the nested structure
-  const data = jsonData[6];
+  const data = JSON.parse(jsonData)[6];
 
   if (!data) {
     return null;
