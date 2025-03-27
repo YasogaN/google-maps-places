@@ -126,7 +126,7 @@ export async function getFeatureID(place_id) {
  */
 export async function validateApiKey(apiKey) {
   if (!apiKey || typeof apiKey !== 'string' || apiKey.trim() === '') {
-    throw new Error('Invalid API key provided.');
+    throw new Error('This function requires a valid API key. Please provide a valid API key.');
   }
 
   try {

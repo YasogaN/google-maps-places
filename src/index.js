@@ -5,9 +5,9 @@ export default class PlaceData {
   /**
    * Creates an instance of the class with the provided API key.
    * @class
-   * @param {string} apiKey - The API key to authenticate requests.
+   * @param {string} [apiKey] - The API key to authenticate requests.
    */
-  constructor(apiKey) {
+  constructor(apiKey = null) {
     this.apiKey = apiKey;
   }
 
