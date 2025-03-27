@@ -147,16 +147,16 @@ export async function validateApiKey(apiKey) {
  * @property {string} phone - The phone number of the location.
  * @property {Array} categories - The categories associated with the location.
  * @property {string} timezone - The timezone of the location.
- * @property {Array} photos - An array of photo objects associated with the location.
- * @property {string} photos[].id - The unique identifier of the photo.
- * @property {string} photos[].type - The type of the photo (e.g., "Video").
- * @property {string | object} photos[].url - The URL of the photo or video cover.
- * @property {object} photos[].resolution - The resolution of the photo.
- * @property {number} photos[].resolution.width - The width of the photo in pixels.
- * @property {number} photos[].resolution.height - The height of the photo in pixels.
- * @property {object} photos[].coordinates - The geographical coordinates where the photo was taken.
- * @property {number} photos[].coordinates.latitude - The latitude of the photo's location.
- * @property {number} photos[].coordinates.longitude - The longitude of the photo's location.
+ * @property {Array} media - An array of photo objects associated with the location.
+ * @property {string} media[].id - The unique identifier of the photo.
+ * @property {string} media[].type - The type of the photo (e.g., "Video").
+ * @property {string | object} media[].url - The URL of the photo or video cover.
+ * @property {object} media[].resolution - The resolution of the photo.
+ * @property {number} media[].resolution.width - The width of the photo in pixels.
+ * @property {number} media[].resolution.height - The height of the photo in pixels.
+ * @property {object} media[].coordinates - The geographical coordinates where the photo was taken.
+ * @property {number} media[].coordinates.latitude - The latitude of the photo's location.
+ * @property {number} media[].coordinates.longitude - The longitude of the photo's location.
  * @property {Array} relatedLocations - An array of related location objects.
  * @property {string} relatedLocations[].id - The unique identifier of the related location.
  * @property {string} relatedLocations[].name - The name of the related location.
@@ -189,32 +189,32 @@ export function cleanData(jsonData) {
     phone: data[178]?.[0]?.[0] ?? null,
     categories: data[13] ?? null,
     timezone: data[30] ?? null,
-    photos: [],
+    media: [],
     relatedLocations: [],
     accessibility: data[100]?.[1]?.[0]?.[2]?.map(item => item[1]) ?? null,
   };
 
-  // Process photos
+  // Process media
   if (data[51]) {
-    parsedData.photos = data[51][0].map(photo => {
+    parsedData.media = data[51][0].map(media => {
       return {
-        id: photo[0],
-        type: photo[20],
-        url: photo[20] === "Video"
+        id: media[0],
+        type: media[20],
+        url: media[20] === "Video"
           ? {
-            cover: photo[6]?.[0]?.split('=')[0] ?? null,
-            video: photo[26]?.[1]
+            cover: media[6]?.[0]?.split('=')[0] ?? null,
+            video: media[26]?.[1]
               ?.filter(item => item?.[0] !== null)
               ?.sort((a, b) => (b?.[1] * b?.[2]) - (a?.[1] * a?.[2]))?.[0]?.[3] ?? null,
           }
-          : photo[6]?.[0]?.split('=')[0] ?? null,
+          : media[6]?.[0]?.split('=')[0] ?? null,
         resolution: {
-          width: photo[6]?.[2]?.[0] ?? null,
-          height: photo[6]?.[2]?.[1] ?? null,
+          width: media[6]?.[2]?.[0] ?? null,
+          height: media[6]?.[2]?.[1] ?? null,
         },
         coordinates: {
-          latitude: photo[8]?.[0]?.[2] ?? null,
-          longitude: photo[8]?.[0]?.[1] ?? null,
+          latitude: media[8]?.[0]?.[2] ?? null,
+          longitude: media[8]?.[0]?.[1] ?? null,
         },
       };
     });
