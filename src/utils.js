@@ -44,6 +44,30 @@ export function extractFeatureId(str) {
 }
 
 /**
+ * Extracts the feature ID from a given URL.
+ *
+ * The function searches for a specific pattern in the URL that matches
+ * `!1s<featureId>!` and extracts the `<featureId>` portion.
+ * @param {string} url - The URL string from which to extract the feature ID.
+ * @returns {string} The extracted feature ID.
+ * @throws {Error} If the feature ID cannot be extracted from the URL.
+ */
+export function extractFeatureIdFromURL(url) {
+  try {
+    const match = url.match(/!1s([a-zA-Z0-9_:]+)!/);
+
+    if (!match && !match[0]) {
+      throw new Error('Failed to extract feature ID from URL')
+    }
+    const featureId = match[1];
+
+    return featureId;
+  } catch {
+    throw new Error('Failed to extract feature ID from URL');
+  }
+}
+
+/**
  * Fetches the Place IDs for a given query using the Google Places API.
  * @param {string} query - The search query for the place.
  * @param {string} apiKey - The API key for authenticating with the Google Places API.
